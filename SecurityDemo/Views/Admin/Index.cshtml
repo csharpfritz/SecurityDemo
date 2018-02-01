@@ -1,0 +1,28 @@
+﻿@model ApplicationUser
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@{
+	ViewData["Title"] = "Index";
+	IList<Claim> claims = ViewBag.Claims;
+}
+
+<h2>Index</h2>
+
+<p>Congrats!  You are a BigCheese!</p>
+
+<dl>
+	@foreach (var item in claims)
+	{
+
+		<dt>@item.Type</dt>
+		<dd>@item.Value</dd>
+
+	}
+</dl>
+
+@if ((await AuthorizationService.AuthorizeAsync(User, "ProvoloneFans")).Succeeded) {
+	<a href="#">Provolone fans clubhouse</a>
+} else {
+	<p>You are not a provolone fan... go away!</p>
+}
